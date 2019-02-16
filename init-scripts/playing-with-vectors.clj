@@ -1,5 +1,5 @@
 ; Creating a vector from vector function
-(vector "Emma" "Coma" "War and Peace")
+(println "Creating vector with vector function"(vector "Emma" "Coma" "War and Peace"))
 
 ; Setting variable with vector value
 (def years-book [1491 "April 1865" "1984" "2001"])
