@@ -11,3 +11,6 @@
 
 ; Use dissoc to remove info from an existing map
 (println "A book updated" (dissoc book :published))
+
+(println "Get all existing keys from map" (keys book))
+(println "Get all existing values from map" (vals book))
