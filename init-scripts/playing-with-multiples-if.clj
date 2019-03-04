@@ -1,3 +1,4 @@
+; Working with nested if statements
 (defn shipping-charge [preferred-customer order-amount]
     (if preferred-customer
         0.0
