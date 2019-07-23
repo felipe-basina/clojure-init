@@ -26,7 +26,7 @@
 (println (adventure? dracula))
 
 (defn cheapy-horror? [book]
-    (when (and (cheapy? book) (horror? book))
+    (when (and (cheapy? book) (h  orror? book))
         book))
 
 (defn pricy-adventure? [book]
