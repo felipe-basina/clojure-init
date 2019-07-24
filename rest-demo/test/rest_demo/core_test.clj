@@ -16,6 +16,7 @@
 
 (deftest test-request-example
   (is (= 200 (:status (request "/request" app-routes))))
+  (not-empty (:body (request "/request" app-routes {:name "there!!!"})))
   (is (= {"Content-Type" "text/html"} (:headers (request "/request" app-routes)))))  
 
 (deftest test-hello-name
