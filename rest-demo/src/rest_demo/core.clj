@@ -13,7 +13,6 @@
 
 ;Collection Helper functions to add a new person
 (defn addperson 
-  ([firstname] (addperson firstname "default"))
   ([firstname surname] (swap! people-collection conj {:firstname (str/capitalize firstname) :surname (str/capitalize surname)})))
 
 ; Example JSON objects
