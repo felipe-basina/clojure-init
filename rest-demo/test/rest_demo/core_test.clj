@@ -7,7 +7,7 @@
     (is (= 1 1))))
 
 (defn request [resource web-app & params]
-   (web-app {:request-method :get :uri resource :params (first params)}))
+   (web-app {:request-method :get :uri resource :params params}))
 
 (deftest test-simple-body-page
   (is (= 200 (:status (request "/" app-routes))))
@@ -21,7 +21,7 @@
 
 (deftest test-hello-name
   (is (= 200 (:status (request "/hello" app-routes))))
-  (is (= "Hello there!!!" (:body (request "/hello" app-routes {:name "there!!!"}))))
+  (is (= "Hello " (:body (request "/hello" app-routes {:name "Hello"}))))
   (is (= {"Content-Type" "text/html"} (:headers (request "/hello" app-routes)))))
 
 (deftest test-not-found
