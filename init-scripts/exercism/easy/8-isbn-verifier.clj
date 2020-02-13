@@ -24,7 +24,7 @@
   (if (empty? digits) sum
       (sum-up-digits
        (rest digits)
-       (+ sum (* (int (first digits)) (count digits))))))
+       (+ sum (* (first digits) (count digits))))))
 
 (defn is-valid-isbn? [isbn]
   (let [digits (convert-digits (split-string isbn))]
