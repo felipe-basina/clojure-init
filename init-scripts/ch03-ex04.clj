@@ -2,15 +2,15 @@
 ;; (mapset inc [1 1 2 2])
 ;;  => #{2 3}
 
-(defn apply-func-to-collection [func vec coll]
+(defn apply-func-to-collection [func coll vec]
   (if (empty? coll) vec
       (apply-func-to-collection func 
-                                (conj vec (func (first coll))) 
-                                (rest coll))))
+                                (rest coll)
+                                (conj vec (func (first coll))))))
 
 (defn mapset [func coll]
   ;; Receives a collection and parse it to set
-  (into (sorted-set) (apply-func-to-collection func [] coll)))
+  (into (sorted-set) (apply-func-to-collection func coll [])))
 
 (def mapset-value (mapset inc [1 1 2 2]))
 (println mapset-value)
