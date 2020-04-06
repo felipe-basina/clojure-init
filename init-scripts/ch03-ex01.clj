@@ -1,3 +1,4 @@
+;; Use the str, vector, list, hash-map, and hash-set functions.
 ;; Creates a string
 (println (str "This" "is" "a" "string" "concatenation"))
 
