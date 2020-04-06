@@ -8,8 +8,9 @@
                                 (rest coll)
                                 (conj vec (func (first coll))))))
 
-(defn mapset [func coll]
-  ;; Receives a collection and parse it to set
+(defn mapset
+  "Receives a collection and parse it to set"
+  [func coll]
   (into (sorted-set) (apply-func-to-collection func coll [])))
 
 (def mapset-value (mapset inc [1 1 2 2]))
