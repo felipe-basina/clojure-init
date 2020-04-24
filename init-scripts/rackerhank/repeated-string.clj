@@ -16,12 +16,16 @@
 (defn repeatedString [s n]
   (if (or (>= (count s) n) (has-only-a s)) (count-a s n)
       (loop [index 0
-             new-string s]
-        (if (= (count new-string) n) (repeatedString new-string n)
+             new-string s
+             total (count-a s n)]
+        (if (= (count new-string) n) total
             (let [inner-index (if (< index (count s)) index
-                                  0)]
+                                  0)
+                  new-letter (nth s inner-index)]
               (recur (inc inner-index)
-                     (str new-string (nth s inner-index))))))))
+                     (str new-string new-letter)
+                     (if (= (str new-letter) "a") (inc total)
+                         total)))))))
 
 (println (repeatedString "ababa" 3))
 (println (repeatedString "abcac" 10))
