@@ -1,31 +1,20 @@
-(defn has-only-a [s]
-  (loop [index 0]
-    (if (= index (count s)) true
-        (if (not (= (str (nth s index)) "a")) false
-            (recur (inc index))))))
+(require '[clojure.string :as str])
 
-(defn count-a [s n]
-  (if (has-only-a s) n
-      (loop [index 0
-             total 0]
-        (if (or (= index (count s)) (= index n)) total
-            (recur (inc index)
-                   (if (= (str (nth s index)) "a") (inc total)
-                       total))))))
+(defn is-a [letter]
+  (if (= (str letter) "a") 1
+      0))
 
-(defn repeatedString [s n]
-  (if (or (>= (count s) n) (has-only-a s)) (count-a s n)
-      (loop [index 0
-             new-string s
-             total (count-a s n)]
-        (if (= (count new-string) n) total
-            (let [inner-index (if (< index (count s)) index
-                                  0)
-                  new-letter (nth s inner-index)]
-              (recur (inc inner-index)
-                     (str new-string new-letter)
-                     (if (= (str new-letter) "a") (inc total)
-                         total)))))))
+(defn count-total [string]
+  (let [vector (str/split string #"")]
+    (reduce + (map is-a vector))))
+
+(defn repeatedString [string size]
+  (if (>= (count string) size) (count-total (subs string 0 size))
+      (let [total (quot size (count string))
+            rest (rem size (count string))
+            additional (if (> rest 0) (count-total (subs string 0 rest))
+                           0)]
+        (+ (* total (count-total string)) additional))))
 
 (println (repeatedString "ababa" 3))
 (println (repeatedString "abcac" 10))
