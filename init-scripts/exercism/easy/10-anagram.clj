@@ -6,7 +6,9 @@
 (defn update-map-letters [map-letters nested-map-key-source nested-map-key-lookup letter]
   (let [key-letter (keyword letter)
         found-letter-lookup? (not (nil? (get-in map-letters [nested-map-key-lookup key-letter])))]
-    (if (= found-letter-lookup? true) (update-in map-letters [nested-map-key-lookup] dissoc key-letter)
+    (if (= found-letter-lookup? true) (let [current-total (dec (get-in map-letters [nested-map-key-lookup key-letter]))]
+                                        (if (<= current-total 0) (update-in map-letters [nested-map-key-lookup] dissoc key-letter)
+                                            (assoc-in map-letters [nested-map-key-lookup key-letter] current-total)))
         (let [found-letter-source? (not (nil? (get-in map-letters [nested-map-key-source key-letter])))]
           (if (= found-letter-source? true) (assoc-in map-letters [nested-map-key-source key-letter] 
                                                        (inc (get-in map-letters [nested-map-key-source key-letter])))
@@ -33,7 +35,9 @@
              anagrams '()]
         (if (< index total-candidates) (let [candidate (nth candidates index) 
                                              candidate-letters (str/split candidate #"")]
-                                         (if (= word-total-letters (count candidate)) (let [map-letters (check-anagram word-letters candidate-letters)] 
+                                         (if (= word-total-letters (count candidate)) (let [map-letters (check-anagram word-letters candidate-letters)]
+                                                                                        (println "map-letters" map-letters
+                                                                                                 "--------------------------")
                                                                                         (if (and (empty? (get-in map-letters [:ref])) 
                                                                                                  (empty? (get-in map-letters [:cand]))) (recur (inc index)
                                                                                                                                                (conj anagrams candidate))
@@ -44,4 +48,5 @@
             anagrams))))
 
 (println (anagram "listen" '("enlists" "google" "inlets" "banana" "lentis")))
-(println (anagram "nnaa" '("mbmb" "nana")))
+;(println (anagram "nnaa" '("mbmb" "nana")))
+;(println (anagram "aaab" '("bbba")))
