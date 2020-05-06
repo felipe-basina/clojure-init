@@ -3,21 +3,35 @@
 ;; program should return a list containing "inlets" .
 (require '[clojure.string :as str])
 
+(defn add-letter-with-value-in-map [map-letters nested-map-key letter-key total]
+  (assoc-in map-letters [nested-map-key letter-key] total))
+
+(defn remove-letter-from-map [map-letters nested-map-key letter-key]
+  (update-in map-letters [nested-map-key] dissoc letter-key))
+
+(defn get-value-from-map [map-letters nested-map-key letter-key]
+  (get-in map-letters [nested-map-key letter-key]))
+
+(defn exists-letter-in-map? [map-letters nested-map-key letter-key]
+  (not (nil? (get-value-from-map map-letters nested-map-key letter-key))))
+
 (defn update-map-letters [map-letters nested-map-key-source nested-map-key-lookup letter]
-  (let [key-letter (keyword letter)
-        found-letter-lookup? (not (nil? (get-in map-letters [nested-map-key-lookup key-letter])))]
-    (if (= found-letter-lookup? true) (let [current-total (dec (get-in map-letters [nested-map-key-lookup key-letter]))]
-                                        (if (<= current-total 0) (update-in map-letters [nested-map-key-lookup] dissoc key-letter)
-                                            (assoc-in map-letters [nested-map-key-lookup key-letter] current-total)))
-        (let [found-letter-source? (not (nil? (get-in map-letters [nested-map-key-source key-letter])))]
-          (if (= found-letter-source? true) (assoc-in map-letters [nested-map-key-source key-letter] 
-                                                       (inc (get-in map-letters [nested-map-key-source key-letter])))
-              (assoc-in map-letters [nested-map-key-source key-letter] 1))))))
+  (let [letter-key (keyword letter)]
+    (if (exists-letter-in-map? map-letters nested-map-key-lookup letter-key) 
+      (let [current-total (dec (get-value-from-map map-letters nested-map-key-lookup letter-key))]
+        (if (<= current-total 0) (remove-letter-from-map map-letters nested-map-key-lookup letter-key)
+            (add-letter-with-value-in-map map-letters nested-map-key-lookup letter-key current-total)))
+        (if (exists-letter-in-map? map-letters nested-map-key-source letter-key) 
+          (add-letter-with-value-in-map map-letters nested-map-key-source letter-key (inc (get-value-from-map map-letters nested-map-key-source letter-key)))
+          (add-letter-with-value-in-map map-letters nested-map-key-source letter-key 1)))))
+
+(defn split-string [string]
+  (str/split string #""))
 
 (defn check-anagram [word candidate]
   (loop [map-letters {}
-         reference word
-         candidate candidate]
+         reference (split-string word)
+         candidate (split-string candidate)]
     (let [word-letter (first reference)
           candidate-letter (first candidate)]
       (if (empty? reference) map-letters
@@ -27,26 +41,33 @@
                    (rest reference)
                    (rest candidate)))))))
 
-(defn anagram [word candidates]
-  (let [word-letters (str/split word #"")
-        word-total-letters (count word)
-        total-candidates (count candidates)]
-      (loop [index 0
-             anagrams '()]
-        (if (< index total-candidates) (let [candidate (nth candidates index) 
-                                             candidate-letters (str/split candidate #"")]
-                                         (if (= word-total-letters (count candidate)) (let [map-letters (check-anagram word-letters candidate-letters)]
-                                                                                        (println "map-letters" map-letters
-                                                                                                 "--------------------------")
-                                                                                        (if (and (empty? (get-in map-letters [:ref])) 
-                                                                                                 (empty? (get-in map-letters [:cand]))) (recur (inc index)
-                                                                                                                                               (conj anagrams candidate))
-                                                                                            (recur (inc index)
-                                                                                                   anagrams)))
-                                             (recur (inc index)
-                                                    anagrams)))
-            anagrams))))
+(defn empty-map-letters? [map-letters]
+  (and (empty? (get-in map-letters [:ref]))
+       (empty? (get-in map-letters [:cand]))))
 
-(println (anagram "listen" '("enlists" "google" "inlets" "banana" "lentis")))
-;(println (anagram "nnaa" '("mbmb" "nana")))
-;(println (anagram "aaab" '("bbba")))
+(defn get-candidate-from-idx [candidates index]
+  (nth candidates index))
+
+(defn words-total [words]
+  (count words))
+
+(defn same-size-words? [reference candidate]
+  (= (words-total reference) (words-total candidate)))
+
+(defn add-to-anagram-list [anagrams anagram]
+  (conj anagrams anagram))
+
+(defn anagram [word candidates]
+  (loop [candidates candidates anagrams '()]
+    (if (empty? candidates) anagrams
+        (let [candidate (first candidates)]
+          (if (same-size-words? word candidate) 
+            (let [map-letters (check-anagram word candidate)]
+              (if (empty-map-letters? map-letters) (recur (rest candidates) (add-to-anagram-list anagrams candidate))
+                  (recur (rest candidates) anagrams)))
+            (recur (rest candidates) anagrams))))))
+
+(println "Anagrams for 'listen'" (anagram "listen" '("enlists" "google" "inlets" "banana" "lentis")))
+(println "Anagrams for 'nnaa'"(anagram "nnaa" '("mbmb" "nana")))
+(println "Anagrams for 'aaab'"(anagram "aaab" '("bbba")))
+(println "Anagrams for 'amor'"(anagram "amor" '("roma" "ramo" "mora" "maro" "maru")))
