@@ -45,9 +45,6 @@
   (and (empty? (get-in map-letters [:ref]))
        (empty? (get-in map-letters [:cand]))))
 
-(defn get-candidate-from-idx [candidates index]
-  (nth candidates index))
-
 (defn words-total [words]
   (count words))
 
