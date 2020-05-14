@@ -1,13 +1,14 @@
 version: '3.5'
-volumes:
-  data:
+
 services:
   db:
-    image: mysql:latest
+    image: mysql:5.7
+    volumes:
+      - ./init.sql:/data/application/init.sql
+    environment:
+      MYSQL_DATABASE: 'todolist'
+      MYSQL_ROOT_PASSWORD: 's3cr3t'
     ports:
       - "3307:3306"
-    volumes:
-      - ./db-dump:/docker-entrypoint-initdb.d
-    environment:
-      - MYSQL_ROOT_PASSWORD=adminS3cr3t
-      - MYSQL_DATABASE=todolist
+    expose:
+      - "3307"
