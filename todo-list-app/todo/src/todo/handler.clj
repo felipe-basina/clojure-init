@@ -26,7 +26,9 @@
         (if (empty? todo) nil
             (response (first todo))))))
   (GET "/api/todos/:id" [id] 
-    (response (get-todo-by-id id)))
+    (let [todo (get-todo-by-id id)]
+      (if (empty? todo) nil
+          (response (first todo)))))
   (DELETE "/api/todos/:id" [id]
     (delete-todo id)
     (response (get-todos)))

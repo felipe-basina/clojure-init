@@ -3,9 +3,9 @@
 
 (def db-connection-data
   (korma/mysql {:host "localhost" 
-                :port 3306 
+                :port 3307 
                 :db "todolist" 
                 :user "root" 
-                :password "Acesso#123"}))
+                :password "s3cr3t"}))
 
 (korma/defdb conn db-connection-data)
