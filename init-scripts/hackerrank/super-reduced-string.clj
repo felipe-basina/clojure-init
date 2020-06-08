@@ -15,6 +15,12 @@
   (if (empty? reduced-string) "Empty String"
       reduced-string))
 
+(defn two-letters? [splitted]
+  (= (count splitted) 2))
+
+(defn next-substring [string init]
+  (subs string init (count string)))
+
 (defn reduce-string [string reduced-string]
   (loop [string string
          reduced-string reduced-string
@@ -23,16 +29,12 @@
                             (reduce-string reduced-string ""))
         (let [sliced-str (slice-in-2 string)
               splitted (split-string sliced-str)]
-          (println "string" string "reduced-string" reduced-string "sliced-str" sliced-str)
-          (if (= (count splitted) 2)
-            (if (same-letter? splitted)
-              (recur (subs string 2 (count string))
+          (if (and (two-letters? splitted)
+                   (same-letter? splitted))
+              (recur (next-substring string 2)
                      reduced-string
                      true)
-              (recur (subs string 1 (count string))
-                     (str reduced-string (first splitted))
-                     reduced?))
-            (recur (subs string 1 (count string))
+            (recur (next-substring string 1)
                    (str reduced-string (first splitted))
                    reduced?))))))
 
