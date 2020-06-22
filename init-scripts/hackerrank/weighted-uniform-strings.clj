@@ -8,51 +8,54 @@
 (defn character-weight [character]
   (inc (.indexOf alphabet character)))
 
-(defn character-existing-weights [current-character previous-character-map]
-  (let [total (previous-character-map current-character)]
-    (if total total 0)))
+(defn character-existing-weights? [current-character previous-character-map]
+  (previous-character-map current-character))
 
-(defn remove-character [character previous-character-map]
-  (dissoc previous-character-map character))
+(defn add-vals-to-vector [all-vals vals]
+  (loop [vals vals
+         all-vals all-vals]
+    (if (empty? vals) all-vals
+        (recur (rest vals)
+               (conj all-vals (first vals))))))
 
-(defn add-character [character weight previous-character-map]
-  (assoc previous-character-map character weight))
+(defn get-all-vals [my-map]
+  (loop [vals (vals my-map)
+         all-vals []]
+    (if (empty? vals) all-vals
+        (recur (rest vals)
+               (add-vals-to-vector all-vals (first vals))))))
 
-(defn find-value [value]
-  (fn [value-to-find]
-    (= value-to-find value)))
+(defn get-existing-weight [weights-map character]
+  (last (weights-map character)))
 
-(defn value-exists? [value-to-find queries]
-  (let [value-found (filterv (find-value value-to-find) queries)]
-    (if (empty? value-found) "NO" "YES")))
+(defn map-characters-weight [string-vector]
+  (loop [string-vector string-vector
+         weights-map {}]
+    (if (empty? string-vector) weights-map
+        (let [character (first string-vector)
+              current-weight (character-weight character)
+              character-existing-weights? (character-existing-weights? character weights-map)]
+          (if character-existing-weights?
+            (recur (rest string-vector)
+                   (assoc weights-map character (conj (get weights-map character) (+ current-weight (get-existing-weight weights-map character)))))
+            (recur (rest string-vector)
+                   (assoc weights-map character (conj [] current-weight))))))))
 
-(defn same-query? [current-value query]
-  (= current-value query))
+(defn exists-weight? [weights query]
+  (> (.indexOf weights query) -1))
 
-(defn not-continue-analyzing? [current-weight query]
-  (> current-weight query))
-
-(defn find-by-query [string-vector query]
-  (loop [string-vec string-vector
-         previous-character {}]
-    (if (empty? string-vec) "No"
-        (let [character (first string-vec)
-              current-character-weight (character-weight character)
-              character-weights (character-existing-weights character previous-character)]
-          (if (or (same-query? current-character-weight query)
-                  (same-query? (+ current-character-weight character-weights) query)) "Yes"
-              (if (not-continue-analyzing? current-character-weight query) "No"
-                  (recur (rest string-vec)
-                         (let [previous-character (add-character character (+ current-character-weight character-weights) {})]
-                           previous-character))))))))
+(defn find-by-query [weights query]
+    (if (exists-weight? weights query) "Yes" "No"))
 
 (defn weightedUniformStrings [s queries]
-  (let [string-vec (split-string s)]
+  (let [string-vec (split-string s)
+        characters-weight-map (map-characters-weight string-vec)
+        weights (get-all-vals characters-weight-map)]
     (loop [queries queries
            result []]
       (if (empty? queries) result
           (recur (rest queries)
-                 (conj result (find-by-query string-vec (first queries))))))))
+                 (conj result (find-by-query weights (first queries))))))))
 
 (println (weightedUniformStrings "abccddde" [1 3 12 5 9 10]))
 (println (weightedUniformStrings "aaabbbbcccddd" [9 7 8 12 5]))
