@@ -29,6 +29,9 @@
 (defn same-query? [current-value query]
   (= current-value query))
 
+(defn not-continue-analyzing? [current-weight query]
+  (> current-weight query))
+
 (defn find-by-query [string-vector query]
   (loop [string-vec string-vector
          previous-character {}]
@@ -38,9 +41,10 @@
               character-weights (character-existing-weights character previous-character)]
           (if (or (same-query? current-character-weight query)
                   (same-query? (+ current-character-weight character-weights) query)) "Yes"
-            (recur (rest string-vec)
-                   (let [previous-character (add-character character (+ current-character-weight character-weights) {})]
-                     previous-character)))))))
+              (if (not-continue-analyzing? current-character-weight query) "No"
+                  (recur (rest string-vec)
+                         (let [previous-character (add-character character (+ current-character-weight character-weights) {})]
+                           previous-character))))))))
 
 (defn weightedUniformStrings [s queries]
   (let [string-vec (split-string s)]
