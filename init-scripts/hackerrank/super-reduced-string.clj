@@ -3,45 +3,32 @@
 (defn split-string [string]
   (s/split string #""))
 
-(defn same-letter? [splitted]
-  (= (first splitted) (second splitted)))
+(defn add-into-stack [stack element]
+  (conj stack element))
 
-(defn slice-in-2 [string]
-  (try
-    (subs string 0 2)
-    (catch Exception e (subs string 0 1))))
+(defn pop-from-stack [stack]
+  (pop stack))
 
-(defn check-reduced-string [reduced-string]
-  (if (empty? reduced-string) "Empty String"
-      reduced-string))
+(defn in-stack? [stack element]
+  (if (empty? stack) false
+      (let [last-element (last stack)]
+        (= last-element element))))
 
-(defn two-letters? [splitted]
-  (= (count splitted) 2))
-
-(defn next-substring [string init]
-  (subs string init (count string)))
-
-(defn reduce-string [string reduced-string]
-  (loop [string string
-         reduced-string reduced-string
-         reduced? false]
-    (if (empty? string) (if (not reduced?) (check-reduced-string reduced-string)
-                            (reduce-string reduced-string ""))
-        (let [sliced-str (slice-in-2 string)
-              splitted (split-string sliced-str)]
-          (if (and (two-letters? splitted)
-                   (same-letter? splitted))
-              (recur (next-substring string 2)
-                     reduced-string
-                     true)
-            (recur (next-substring string 1)
-                   (str reduced-string (first splitted))
-                   reduced?))))))
+(defn reduce-string [stack]
+  (if (empty? stack) "Empty String" (reduce str stack)))
 
 (defn superReducedString [string]
-  (reduce-string string ""))
+  (let [split-string (split-string string)]
+    (loop [split-string split-string
+           reduced-string []]
+      (if (empty? split-string) (reduce-string reduced-string)
+          (let [character (first split-string)]
+            (if (not (in-stack? reduced-string character))
+              (recur (vec (rest split-string))
+                     (add-into-stack reduced-string character))
+              (recur (vec (rest split-string))
+                     (pop-from-stack reduced-string))))))))
 
 (println (superReducedString "aaabccddd"))
 (println (superReducedString "aa"))
 (println (superReducedString "baab"))
-(println (superReducedString "mwkommokwmxjivkkvijxshscbbcshsgwdyqqydwgzpnlzzlnpzvfeaiiaefvyeqjccjqeymhqhiihqhmhaomkkmoahhddymmyddh"))
