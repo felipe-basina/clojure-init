@@ -14,7 +14,9 @@ services:
 
   todo-app:
     environment:
-      - DATABASE_HOST=host.docker.internal
+      # Utilizar HOST = host.docker.internal em MacOs, Windows
+      # Utilizar HOST = <sudo ip addr show docker0> em Linux
+      - DATABASE_HOST=172.17.0.1
       - DATABASE_PORT=3307
       - DATABASE_SCHEMA=todolist
       - DATABASE_USER=root
