@@ -1,14 +1,27 @@
 version: '3.5'
 
 services:
-  db:
+
+  mysql:
     image: mysql:5.7
     volumes:
-      - ./init.sql:/data/application/init.sql
+      - ./db-dump:/docker-entrypoint-initdb.d
     environment:
       MYSQL_DATABASE: 'todolist'
       MYSQL_ROOT_PASSWORD: 's3cr3t'
     ports:
       - "3307:3306"
-    expose:
-      - "3307"
+
+  todo-app:
+    environment:
+      - DATABASE_HOST=host.docker.internal
+      - DATABASE_PORT=3307
+      - DATABASE_SCHEMA=todolist
+      - DATABASE_USER=root
+      - DATABASE_PASSWORD=s3cr3t
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: 'always'
+    ports:
+      - '3001:3000'
