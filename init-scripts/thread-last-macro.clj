@@ -5,5 +5,10 @@
               (map #(* % %))
               (reduce +)))
 
+(println (->> (range 10)
+              (filter odd? ,,,)
+              (map #(* % %) ,,,)
+              (reduce + ,,,)))
+
 ; Equivalente à seguinte chamada:
 (println (reduce + (map #(* % %) (filter odd? (range 10)))))
