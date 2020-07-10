@@ -12,4 +12,5 @@
                            (recur (inc index))))))
 
 (create-stars 10)
+(create-stars 100)
 

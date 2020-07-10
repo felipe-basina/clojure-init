@@ -15,16 +15,16 @@
         total-characters (rem total-characters 2)]
     (> total-characters 0)))
 
-(defn update-map [character map-to-update]
-  (let [total (map-to-update character)]
-    (if total (update map-to-update character dec)
+(defn update-value-from-map [character map-to-update key-reference func]
+  (let [total (get-in map-to-update [key-reference character])]
+    (if total (update-in map-to-update [key-reference character] func)
         map-to-update)))
 
-(defn count-characters [character map-to-add map-to-check]
-  (let [current-val (map-to-check character 0)]
-    (println "character" character "map-to-add" map-to-add "map-to-check" map-to-check)
-    (if (> current-val 0) (update-map character map-to-add)
-        (assoc map-to-add character (inc (map-to-add character 0))))))
+(defn update-map [character map-to-update key-reference key-sentinel]
+  (let [total (get-in map-to-update [key-sentinel character])]
+    (println "total" total "character" character "map-to-update" map-to-update)
+    (if total (update-value-from-map character map-to-update key-reference dec)
+        (assoc-in map-to-update [key-reference character] (inc (get-in map-to-update [key-reference character] 0))))))
 
 (defn anagram [s]
   (if (odd-number-of-characters? s) -1
@@ -32,19 +32,14 @@
             str2 (split-string (subs s (half-total-characters s)))]
         (loop [str1 str1
                str2 str2
-               last-character ""
-               map1 {}
-               map2 {}]
-          (if (empty? str1) (let [map1 (count-characters last-character map1 map2)]
-                              (count-values-from-map map1))
-              (let [current-character (first str1)
-                    map1 (count-characters (first current-character) map1 map2)
-                    map2 (count-characters (first str2) map2 map1)]
+               map1 {"1" {} "2" {}}]
+          (if (empty? str1) (count-values-from-map map1)
+              (let [map1 (update-map (first str1) map1 "1" "2")
+                    map1 (update-map (first str2) map1 "2" "1")]
+                ;(println "map1" map1)
                 (recur (rest str1)
                        (rest str2)
-                       current-character
-                       map1
-                       map2)))))))
+                       map1)))))))
 
 ;(println (anagram "aaabbb"))
 ;(println (anagram "ab"))
