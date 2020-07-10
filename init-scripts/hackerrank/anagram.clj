@@ -32,13 +32,17 @@
             str2 (split-string (subs s (half-total-characters s)))]
         (loop [str1 str1
                str2 str2
+               last-character ""
                map1 {}
                map2 {}]
-          (if (empty? str1) (count-values-from-map map1)
-              (let [map1 (count-characters (first str1) map1 map2)
+          (if (empty? str1) (let [map1 (count-characters last-character map1 map2)]
+                              (count-values-from-map map1))
+              (let [current-character (first str1)
+                    map1 (count-characters (first current-character) map1 map2)
                     map2 (count-characters (first str2) map2 map1)]
                 (recur (rest str1)
                        (rest str2)
+                       current-character
                        map1
                        map2)))))))
 
