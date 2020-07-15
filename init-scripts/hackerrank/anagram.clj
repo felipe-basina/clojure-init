@@ -1,3 +1,5 @@
+(require '[clojure.string :as s])
+
 (defn half-total-characters [string]
   (/ (count string) 2))
 
@@ -14,20 +16,18 @@
       (let [half (half-total-characters s)
             first-part (subs s 0 half)
             f-vec (convert-to-vec (sort first-part))
-            second-part (subs s half)
-            s-vec (convert-to-vec (sort second-part))]
-        (println f-vec)
-        (println s-vec)
+            second-part (subs s half)]
         (loop [f-vec f-vec
-               s-vec s-vec
+               second-part second-part
                total 0]
           (if (empty? f-vec) total
-              (let [same? (= (first f-vec) (first s-vec))]
-                (if (not same?) (recur (rest f-vec)
-                                       (rest s-vec)
-                                       (inc total))
+              (let [includes? (s/includes? second-part (first f-vec))
+                    second-part (s/replace-first second-part (first f-vec) "")]
+                (if (not includes?) (recur (rest f-vec)
+                                           second-part
+                                           (inc total))
                     (recur (rest f-vec)
-                           (rest s-vec)
+                           second-part
                            total))))))))
 
 ;(println (anagram "aaabbb"))
