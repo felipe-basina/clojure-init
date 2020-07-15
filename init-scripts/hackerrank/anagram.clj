@@ -1,8 +1,3 @@
-(require '[clojure.string :as s])
-
-(defn split-string [string]
-  (s/split string #""))
-
 (defn half-total-characters [string]
   (/ (count string) 2))
 
@@ -11,25 +6,39 @@
         total-characters (rem total-characters 2)]
     (> total-characters 0)))
 
+(defn convert-to-vec [str-list]
+  (vec (map str str-list)))
+
 (defn anagram [s]
   (if (odd-number-of-characters? s) -1
       (let [half (half-total-characters s)
             first-part (subs s 0 half)
-            parts (split-string first-part)
-            second-part (subs s half)]
-        ;(println first-part second-part)
-        (loop [parts parts
+            f-vec (convert-to-vec (sort first-part))
+            second-part (subs s half)
+            s-vec (convert-to-vec (sort second-part))]
+        (println f-vec)
+        (println s-vec)
+        (loop [f-vec f-vec
+               s-vec s-vec
                total 0]
-          (if (empty? parts) total
-              (let [includes? (s/includes? second-part (first parts))]
-                (if (not includes?) (recur (rest parts)
-                                     (inc total))
-                    (recur (rest parts)
+          (if (empty? f-vec) total
+              (let [same? (= (first f-vec) (first s-vec))]
+                (if (not same?) (recur (rest f-vec)
+                                       (rest s-vec)
+                                       (inc total))
+                    (recur (rest f-vec)
+                           (rest s-vec)
                            total))))))))
 
-(println (anagram "aaabbb"))
-(println (anagram "ab"))
-(println (anagram "abc"))
-(println (anagram "mnop"))
-(println (anagram "xyyx"))
-(println (anagram "xaxbbbxx"))
+;(println (anagram "aaabbb"))
+;(println (anagram "ab"))
+;(println (anagram "abc"))
+;(println (anagram "mnop"))
+;(println (anagram "xyyx"))
+;(println (anagram "xaxbbbxx"))
+
+;(println (anagram "asdfjoieufoa"))
+;(println (anagram "fdhlvosfpafhalll"))
+;(println (anagram "mvdalvkiopaufl"))
+
+(println (anagram "hhpddlnnsjfoyxpciioigvjqzfbpllssuj"))
