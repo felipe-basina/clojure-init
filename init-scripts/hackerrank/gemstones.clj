@@ -9,10 +9,11 @@
          analyze? true]
     (if (or (empty? rocks)
             (not analyze?)) analyze?
-        (if (includes-mineral? mineral (first rocks)) (recur (rest rocks)
-                                                                analyze?)
-            (recur []
-                   false)))))
+        (if (includes-mineral? mineral (first rocks)) 
+          (recur (rest rocks)
+                 analyze?)
+          (recur []
+                 false)))))
 
 (defn remove-same-minerals [current-mineral minerals]
   (let [join (reduce str minerals)
