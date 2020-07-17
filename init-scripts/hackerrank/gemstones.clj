@@ -14,9 +14,11 @@
           (recur []
                  false)))))
 
+(defn to-char []
+  (map char (range (int \a) (inc (int \z)))))
+
 (defn gemstones [arr]
-  (let [letters "abcdefghijklmnopqrstuvxzyw"
-        minerals (s/split letters #"")]
+  (let [minerals (s/split (apply str (vec (to-char))) #"")]
     (loop [minerals minerals
            total 0]
       (if (empty? minerals) total
