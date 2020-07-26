@@ -16,7 +16,6 @@
   (>= (count-string s1) (count-string s2)))
 
 (defn remaining [string]
-  (println "remaining" string)
   (count string))
 
 (defn makingAnagrams [s1 s2]
