@@ -13,7 +13,7 @@
 
 (defn map-of-letters [word]
   (loop [letters (s/split word #"")
-        letters-map {}]
+         letters-map {}]
     (if (empty? letters) letters-map
         (let [letter (first letters)
               total (count-letter letter word)]
@@ -42,7 +42,7 @@
     (if (< difference 0) (* -1 difference) difference)))
 
 (defn is-valid-when-remove-one-letter? [total-set]
-  (if (> (count total-set) 2) false 
+  (if (> (count total-set) 2) false
       (let [difference (get-module-difference total-set)]
         (if (= difference 1) true false))))
 
@@ -51,14 +51,34 @@
     (or (= total-elements 1)
         (is-valid-when-remove-one-letter? total-set))))
 
+(defn exists-only-one-candidate? [values min-val]
+  (loop [values values
+         candidate -1]
+    (if (empty? values) true
+        (let [val (first values)
+              difference (- val min-val)]
+          (if (or (> difference 1)
+                  (> candidate 0)) false
+              (recur (rest values)
+                     (if (> candidate 0) candidate difference)))))))
+
+(defn remove-min-elements [values min-val]
+  (remove #(= min-val %) values))
+
 (defn isValid [word]
   (let [map-of-letters (map-of-letters word)
-        total-set (total-set map-of-letters)
-        min-val (apply min (vals map-of-letters))]
+        min-val (apply min (vals map-of-letters))
+        values (remove-min-elements (vals map-of-letters) min-val)
+        total-set (total-set map-of-letters)]
     (println map-of-letters "\n" total-set)
-    (if (> (more-than-one-occurrences-same-word map-of-letters) min-val) "NO" 
-        (if (same-number-of-occurrences? total-set) "YES" "NO"))))
+    (if (= (count total-set) 1) "YES"
+        (exists-only-one-candidate? values min-val))))
 
 (println (isValid "aabbcd"))
 (println (isValid "aabbccddeefghi"))
 (println (isValid "abcdefghhgfedecba"))
+
+;(println (remove-min-elements '(1 2 1 2 3 4) 1))
+;(println (exists-only-one-candidate? '(2 3 4) 1)) ; NO
+;(println (exists-only-one-candidate? '(3) 1)) ; NO
+;(println (exists-only-one-candidate? '(2) 1)) ; YES
