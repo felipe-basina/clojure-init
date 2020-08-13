@@ -20,6 +20,15 @@
           (recur (rest letters)
                  (assoc letters-map letter total))))))
 
+(defn more-than-one-occurrences [amount]
+  (fn [min-val]
+    (if (> amount min-val) 1 0)))
+
+(defn more-than-one-occurrences-same-word [map-of-letters]
+  (let [vals (vals map-of-letters)
+        min-val (apply min vals)]
+    (reduce + (map (more-than-one-occurrences min-val) vals))))
+
 (defn total-set [map-of-letters]
   (loop [map-vals (vals map-of-letters)
          total-set #{}]
@@ -37,15 +46,19 @@
       (let [difference (get-module-difference total-set)]
         (if (= difference 1) true false))))
 
-(defn same-number-of-ocurrencies? [total-set]
+(defn same-number-of-occurrences? [total-set]
   (let [total-elements (count  total-set)]
     (or (= total-elements 1)
         (is-valid-when-remove-one-letter? total-set))))
 
 (defn isValid [word]
   (let [map-of-letters (map-of-letters word)
-        total-set (total-set map-of-letters)]
+        total-set (total-set map-of-letters)
+        min-val (apply min (vals map-of-letters))]
     (println map-of-letters "\n" total-set)
-    (if (same-number-of-ocurrencies? total-set) "YES" "NO")))
+    (if (> (more-than-one-occurrences-same-word map-of-letters) min-val) "NO" 
+        (if (same-number-of-occurrences? total-set) "YES" "NO"))))
 
 (println (isValid "aabbcd"))
+(println (isValid "aabbccddeefghi"))
+(println (isValid "abcdefghhgfedecba"))
