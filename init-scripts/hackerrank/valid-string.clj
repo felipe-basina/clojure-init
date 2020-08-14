@@ -68,11 +68,17 @@
 (defn isValid [word]
   (let [map-of-letters (map-of-letters word)
         min-val (apply min (vals map-of-letters))
+        max-val (apply max (vals map-of-letters))
+        total-max (reduce + (map (find-letter max-val) (vals map-of-letters)))
+        more-than-one-max? (> total-max 1)
         values (remove-min-elements (vals map-of-letters) min-val)
         total-set (total-set map-of-letters)]
     (println map-of-letters "\n" total-set)
     (if (= (count total-set) 1) "YES"
-        (exists-only-one-candidate? values min-val))))
+        (let [difference (- max-val min-val)]
+          (if (or more-than-one-max?
+                  (> difference 1)) "NO"
+            "YES")))))
 
 (println (isValid "aabbcd"))
 (println (isValid "aabbccddeefghi"))
