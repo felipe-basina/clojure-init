@@ -1,9 +1,6 @@
-(ns estoque-alura.core)
-
-(defn foo
-  "I don't do a whole lot."
-  [x]
-  (println x "Hello, World!"))
+(ns estoque-alura.core
+  (:require [estoque-alura.aula3 :as a3]
+            [clojure.string :as str]))
 
 (defn -main []
-  (foo "hi"))
+  (a3/testes-valor-desconto))
