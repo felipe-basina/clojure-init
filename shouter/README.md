@@ -2,6 +2,10 @@
 
 A Clojure library designed to ... well, that part is up to you.
 
+## Setting the connection pool
+**For Postgresql**
+`(def post-db {:dbtype "postgresql" :dbname "<DB_NAME>" :user "<USER_NAME>" :password "<PASSWORD>" :classname "org.postgresql.Driver"})`
+
 ## Usage
 
 FIXME
