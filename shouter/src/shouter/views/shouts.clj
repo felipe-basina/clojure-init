@@ -15,7 +15,7 @@
 (defn display-shouts [shouts]
   [:div {:class "shouts sixteen columns alpha omega"}
    (map
-    (fn [shout] [:h2 {:class "shout"} (h (:body shout))])
+    (fn [shout] [:h2 {:class "shout"} [:a {:href (str "/" (:id shout))} (:body shout)]])
     shouts)])
 
 (defn index [shouts]

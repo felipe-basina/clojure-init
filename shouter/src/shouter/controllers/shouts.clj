@@ -14,6 +14,12 @@
             (model/create shout))
   (ring/redirect "/"))
 
+(defn delete
+  [id]
+  (model/delete id)
+  (ring/redirect "/"))
+
 (defroutes routes
   (GET  "/" [] (index))
+  (GET  "/:id" [id] (delete id))
   (POST "/" [shout] (create shout)))
