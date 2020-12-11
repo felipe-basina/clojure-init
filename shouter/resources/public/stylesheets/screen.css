@@ -64,7 +64,7 @@ a {
     font-weight: bold;
     letter-spacing: -1px;
     text-align: center;
-    background: url(/images/megaphone.png) 33% 10px no-repeat;
+    background: url(/public/images/megaphone.png) 33% 10px no-repeat;
 }
 h1 span {
     margin-left: 0.6em;
@@ -193,20 +193,20 @@ h1 span a {
         width: auto;
     }
     #header h1 {
-        background: url(/images/megaphone.png) 28% 10px no-repeat;
+        background: url(/public/images/megaphone.png) 28% 10px no-repeat;
     }
 }
 
 /* Mobile/Browser */
 @media only screen and (max-width: 767px) {
     #header h1 {
-        background: url(/images/megaphone.png) 8% 10px no-repeat;
+        background: url(/public/images/megaphone.png) 8% 10px no-repeat;
     }
 }
 /* iPhone & Android portrait */
 @media only screen and (max-width: 480px) {
     #header h1 {
-        background: url(/images/megaphone.png) 10px 10px no-repeat;
+        background: url(/public/images/megaphone.png) 10px 10px no-repeat;
         font-size: 36px;
         text-align: left;
         padding-left: 60px;
