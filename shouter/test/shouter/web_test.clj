@@ -1,9 +1,11 @@
 (ns shouter.web-test
   (:require [clojure.test :refer :all]
             [ring.mock.request :as mock]
+            [ring.util.response :as ring]
             [shouter.web :refer :all]
             [clojure.java.jdbc :as sql]
-            [ring.middleware.defaults :refer [wrap-defaults site-defaults]]))
+            [ring.middleware.defaults :refer [wrap-defaults site-defaults]]
+            [shouter.views.shouts :as view]))
 
 (deftest test-http-ok-for-root
   (testing "main route"
@@ -35,17 +37,16 @@
       (let [response (app (mock/request :post "/" {:shout "Creating a message"}))]
         (is (= (:status response) 302))))))
 
-;(deftest test-http-ok-for-post
-;  (testing "post route"
-;    (with-redefs [sql/insert! (fn [_ _ _ _] 1)
-;                  sql/query (fn [_ _] [{:id 101 :body "Creating a message" :created_at "2020-01-01 10:00:00"}])
-;                  ]
-;      (let [response (app (mock/request :post "/" {:shout "Creating a message"}))]
-;        (is (= (:status response) 302))
-;        (println response)
-;        (is (.contains (:body response) "What do you want to SHOUT?"))
-;        (is (.contains (:body response) "Creating a message"))
-;        (is (.contains (:body response) "/101"))))))
+(deftest test-http-ok-for-post-with-redirect
+  (testing "post route with-redirect"
+    (with-redefs [sql/insert! (fn [_ _ _ _] 1)
+                  ring/redirect (fn [_] (view/index [{:id 101 :body "Creating a message" :created_at "2020-01-01 10:00:00"}]))]
+      (let [response (app (mock/request :post "/" {:shout "Creating a message"}))]
+        (is (= (:status response) 200))
+        (println response)
+        (is (.contains (:body response) "What do you want to SHOUT?"))
+        (is (.contains (:body response) "Creating a message"))
+        (is (.contains (:body response) "/101"))))))
 
 (deftest test-http-not-found
   (testing "not-found route"
