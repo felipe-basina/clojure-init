@@ -19,6 +19,7 @@
     shouts)])
 
 (defn index [shouts]
+  (println "shouts" shouts)
   (layout/common "SHOUTER"
                  (shout-form)
                  [:div {:class "clear"}]
