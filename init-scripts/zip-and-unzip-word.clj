@@ -52,5 +52,5 @@
 (def word (str/split original #""))
 (let [zipped (zip-word word)
       unzipped (unzip-word zipped)]
-    (println "zipped" zipped)
-    (println "unzipped" unzipped))
+    (println "zipped" zipped)       ; 3A4N4T5I2C2O3S1U1L2M2E
+    (println "unzipped" unzipped))  ; AAANNNNTTTTIIIIICCOOSSSULMMEE
