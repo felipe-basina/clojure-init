@@ -6,7 +6,7 @@
 (defn same-letter? [current-letter letter-target]
     (= current-letter letter-target))
 
-(defn count-letter-occurrencies [letter word]
+(defn count-letter-occurrences [letter word]
     (loop [w word
            total 0]
         (if (not-empty w)
@@ -29,7 +29,7 @@
         zipped ""]
         (if (not-empty w)
             (let [letter (first w)
-                total (if (letter-already-mapped? letter zipped) 0 (count-letter-occurrencies letter word))
+                total (if (letter-already-mapped? letter zipped) 0 (count-letter-occurrences letter word))
                 reduced-word (str/replace (reduce str w) letter "")
                 word-wo-current-letter (if (empty? reduced-word) [] (str/split reduced-word #""))]
                 (recur word-wo-current-letter
