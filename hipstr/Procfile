@@ -1,0 +1,1 @@
+web: java -Dclojure.main.report=stderr -cp target/uberjar/hipstr.jar clojure.main -m hipstr.core
