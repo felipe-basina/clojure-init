@@ -12,10 +12,15 @@
 (defn about-page [request]
   (layout/render request "about.html"))
 
+(defn foo-response [request]
+  {:status 200
+   :headers {"Content-Type" "text/html"}
+   :body "<html><body><h1>Hello World!</h1></body></html>"})
+
 (defn home-routes []
   [""
    {:middleware [middleware/wrap-csrf
                  middleware/wrap-formats]}
    ["/" {:get home-page}]
-   ["/about" {:get about-page}]])
+   ["/about" {:get foo-response}]]) ; {:get about-page}
 
