@@ -12,6 +12,13 @@
     [ring.middleware.defaults :refer [site-defaults wrap-defaults]])
   )
 
+; Creates a new handler so every time an route be called, this would run right before it
+(defn go-bowling? [handler]
+  (fn [request]
+    (let [request (assoc request :go-bowling? "YES! NOW!")]
+      (println "DEFAULT HANDLER CONTENT" handler)
+      (handler request))))
+
 (defn wrap-internal-error [handler]
   (fn [req]
     (try
@@ -29,7 +36,6 @@
      (error-page
        {:status 403
         :title "Invalid anti-forgery token"})}))
-
 
 (defn wrap-formats [handler]
   (let [wrapped (-> handler wrap-params (wrap-format formats/instance))]
