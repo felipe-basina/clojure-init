@@ -13,7 +13,6 @@
   (layout/render request "about.html"))
 
 (defn foo-response [request]
-  ;(println request)
   {:status 200
    :headers {"Content-Type" "text/html"}
    :body (str "<html><body><h1>Hello World!</h1><dt>Go bowling?</dt><dd>" (:go-bowling? request) "</dd></body></html>")})
