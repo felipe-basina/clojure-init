@@ -9,8 +9,8 @@
     [hipstr.config :refer [env]]
     [ring.middleware.flash :refer [wrap-flash]]
     [ring.adapter.undertow.middleware.session :refer [wrap-session]]
-    [ring.middleware.defaults :refer [site-defaults wrap-defaults]])
-  )
+    [ring.middleware.defaults :refer [site-defaults wrap-defaults]]
+    [hipstr.components.app-component :as comp]))
 
 ; Creates a new handler so every time an route be called, this would run right before it
 (defn go-bowling? [handler]
@@ -18,6 +18,12 @@
     (let [request (assoc request :go-bowling? "YES! NOW!")]
       (println "DEFAULT HANDLER CONTENT" handler)
       (handler request))))
+
+; Creates a form body parse
+(defn wrap-body-string [handler]
+  (fn [request]
+    (let [body-str (ring.util.request/body-string request)]
+      (handler (assoc request :body (comp/convert-query-param-to-map body-str))))))
 
 (defn wrap-internal-error [handler]
   (fn [req]
