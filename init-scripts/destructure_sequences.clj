@@ -23,3 +23,10 @@
 (println "Getting letters 1, 2, 4 from string `VIRO`:"
          (let [[first-letter second-letter _ fourth-letter] "VIRO"]
               (str first-letter ", " second-letter ", " fourth-letter)))
+
+; It is possible to destructure nested sequences
+(def currencies [[42 "EUR"] [50 "USD"]])
+(println "currencies" currencies)
+(println "Nested sequences:"
+         (let [[[_ currency] [amount _]] currencies]
+              (str currency " " amount)))
