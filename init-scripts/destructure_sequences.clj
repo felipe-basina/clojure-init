@@ -42,3 +42,8 @@
 ; Using : to get the original elements
 (println "All elements" (let [[first _ third :as fruits] basket]
                              (str first ", " third ", all: " fruits)))
+
+; Using destructure in function parameters
+(defn summary [[first second & rest]]
+      (str first ", " second " and " (count rest) " more fruit names!"))
+(println (summary basket))
