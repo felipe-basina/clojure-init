@@ -19,3 +19,7 @@
 
 (println "Coordinates as list:" (let [[x y] coords]
               (str x " - " y)))
+
+(println "Getting letters 1, 2, 4 from string `VIRO`:"
+         (let [[first-letter second-letter _ fourth-letter] "VIRO"]
+              (str first-letter ", " second-letter ", " fourth-letter)))
