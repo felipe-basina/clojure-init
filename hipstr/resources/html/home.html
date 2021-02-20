@@ -1,6 +1,15 @@
 {% extends "base.html" %}
 {% block content %}
+<div class="jumbotron">
+  <h1>Welcome to hipstr</h1>
+  <p>Obscurely building your vinyl cred since, like, now.</p>
+  <p><a class="btn btn-success btn-lg" href="{{servlet-context}}/signup">Sign Up</a>
+    or
+    <a class="btn btn-primary btn-lg" href="{{servlet-context}}/login">Login</a></p>
+</div>
+<!-- ORIGINAL CODE
   <div class="content">
   {{docs|markdown}}
   </div>
+-->
 {% endblock %}

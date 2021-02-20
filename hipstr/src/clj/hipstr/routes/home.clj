@@ -17,10 +17,14 @@
    :headers {"Content-Type" "text/html"}
    :body (str "<html><body><h1>Hello World!</h1><dt>Go bowling?</dt><dd>" (:go-bowling? request) "</dd></body></html>")})
 
+(defn signup [request]
+  (layout/render request "signup.html"))
+
 (defn home-routes []
   [""
    {:middleware [middleware/wrap-csrf
                  middleware/wrap-formats]}
    ["/" {:get home-page}]
+   ["/signup" {:get signup}]
    ["/about" {:get foo-response}]]) ; {:get about-page}
 
