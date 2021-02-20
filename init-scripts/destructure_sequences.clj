@@ -38,3 +38,7 @@
 (println "Get rest not-yet destructured elements:"
          (let [[first second & rest] basket]
               (str "first: " first ", second: " second ", remaining: " rest)))
+
+; Using : to get the original elements
+(println "All elements" (let [[first _ third :as fruits] basket]
+                             (str first ", " third ", all: " fruits)))
