@@ -30,3 +30,11 @@
 (println "Nested sequences:"
          (let [[[_ currency] [amount _]] currencies]
               (str currency " " amount)))
+
+(def basket '("Apple" "Pear" "Banana" "Grapes" "Lemon"))
+(println "fruit basket" basket)
+
+; Using & do assign all remaining not-yet destructured elements
+(println "Get rest not-yet destructured elements:"
+         (let [[first second & rest] basket]
+              (str "first: " first ", second: " second ", remaining: " rest)))
