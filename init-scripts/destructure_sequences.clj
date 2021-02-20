@@ -13,3 +13,9 @@
 (println "User underscore when it is not need the destructured value:"
          (let [[username _ city] items]
               (str username " | " city)))
+
+; It is possible to destructure other types of sequences
+(def coords '(29.20090, 12.90391))
+
+(println "Coordinates as list:" (let [[x y] coords]
+              (str x " - " y)))
