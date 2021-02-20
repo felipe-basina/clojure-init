@@ -33,6 +33,11 @@
    :headers {"Content-Type" "text/html"}
    :body (:val (:path-params request))})
 
+(defn get-request-param-by-key3 [request]
+  {:status 200
+   :headers {"Content-Type" "text/html"}
+   :body (comp/render-request-val request)})
+
 (defn test-routes []
   [""
    {:middleware [middleware/wrap-csrf
@@ -40,4 +45,5 @@
    ["/req" {:get print-request}]
    ["/req/:val" {:get get-request-param-by-key}]
    ["/req1" {:get get-request-param-by-key1}]
-   ["/req2/:val" {:get get-request-param-by-key2}]])
+   ["/req2/:val" {:get get-request-param-by-key2}]
+   ["/req3/:val" {:get get-request-param-by-key3}]])
