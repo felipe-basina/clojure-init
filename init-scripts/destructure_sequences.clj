@@ -9,3 +9,7 @@
 ; When there are no elements to assign a value, the symbol will be nil
 (println "Is nil element?" (let [[alias name city country] items]
               (nil? country)))
+
+(println "User underscore when it is not need the destructured value:"
+         (let [[username _ city] items]
+              (str username " | " city)))
