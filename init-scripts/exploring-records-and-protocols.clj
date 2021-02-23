@@ -1,4 +1,4 @@
-; Set some records
+;; Set some records
 (defrecord FictionalCharacter [name appears-in author])
 (defrecord SuperComputer [cpu no-cpus storage-gb])
 
@@ -7,3 +7,34 @@
 (println "watson-1" watson-1 "\nwatson-2" watson-2)
 (println (class watson-1))
 (println (class watson-2))
+
+;; Set a protocol
+(defprotocol Person
+    (full-name [this])
+    (greeting [this msg])
+    (description [this]))
+
+;; Set some implementations for the protocol
+(defrecord FictionalCharacter2 [name appears-in author]
+    Person
+    (full-name [this] (:name this))
+    (greeting [this msg] (str msg " " (:appears-in this)))
+    (description [this] (str (:name this) " is a character in " (:appears-in this))))
+
+(defrecord Employee [first-name last-name department]
+    Person
+    (full-name [this] (str (:first-name this) " " (:last-name this)))
+    (greeting [this msg] (str msg " " (:first-name this)))
+    (description [this] (str (:first-name this) " works in " (:department this))))
+
+(def john-wick (->FictionalCharacter2 "John Wick" "John Wick 1,2,3" "Keenu Reeves"))
+(println 
+    (full-name john-wick)
+    (greeting john-wick "Hi man,")
+    (description john-wick))
+
+(def marie-doe (->Employee "Marie" "Doe" "Marketing"))
+(println 
+    (full-name marie-doe)
+    (greeting marie-doe "Hello")
+    (description marie-doe))
