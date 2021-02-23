@@ -38,3 +38,21 @@
     (full-name marie-doe)
     (greeting marie-doe "Hello")
     (description marie-doe))
+
+;; Set a new protocol that should be implemented
+(defprotocol Marketable 
+    (make-slogan [this]))
+
+;; Set on-the-fly protocol implementations without changing/re-setting the existing records
+(extend-protocol Marketable
+    Employee
+        (make-slogan [e] (str (:first-name e) " is the BEST employee"))
+    FictionalCharacter2
+        (make-slogan [fc2] (str (:name fc2) " is the GREATEST character"))
+    SuperComputer
+        (make-slogan [sc] (str "This computer has " (:no-cpus sc) " CPUS!")))
+
+(println 
+    (make-slogan marie-doe)
+    (make-slogan john-wick)
+    (make-slogan watson-2))
