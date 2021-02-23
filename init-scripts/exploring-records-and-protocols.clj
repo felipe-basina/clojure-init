@@ -55,4 +55,5 @@
 (println 
     (make-slogan marie-doe)
     (make-slogan john-wick)
-    (make-slogan watson-2))
+    (make-slogan watson-2)
+    (make-slogan watson-1)) ;; Error: watson-1 is a FictionalCharacter which does not have any implementation!
