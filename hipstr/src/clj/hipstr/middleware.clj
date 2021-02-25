@@ -10,7 +10,8 @@
     [ring.middleware.flash :refer [wrap-flash]]
     [ring.adapter.undertow.middleware.session :refer [wrap-session]]
     [ring.middleware.defaults :refer [site-defaults wrap-defaults]]
-    [hipstr.components.app-component :as comp]))
+    [hipstr.components.app-component :as comp]
+    [clojure.string :as str]))
 
 ; Creates a new handler so every time an route be called, this would run right before it
 (defn go-bowling? [handler]
@@ -22,7 +23,8 @@
 ; Creates a form body parse
 (defn wrap-body-string [handler]
   (fn [request]
-    (let [body-str (ring.util.request/body-string request)]
+    (let [body-str (ring.util.request/body-string request)
+          body-str (if (contains? body-str :body) (str/replace body-str "%40" "@") body-str)]
       (handler (assoc request :body (comp/convert-query-param-to-map body-str))))))
 
 (defn wrap-internal-error [handler]
