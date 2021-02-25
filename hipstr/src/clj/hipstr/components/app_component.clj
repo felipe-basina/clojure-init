@@ -10,9 +10,11 @@
     (assoc {} (keyword (first split)) (second split))))
 
 (defn convert-query-param-to-map [query-params]
-  (reduce merge
-          (map create-map
-               (split-by query-params "&"))))
+  (try
+    (reduce merge
+            (map create-map
+                 (split-by query-params "&")))
+    (catch Exception e {})))
 
 (defn render-request-val [request]
   "Simply returns the value of request-key in request-map,
