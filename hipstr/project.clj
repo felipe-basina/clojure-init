@@ -37,7 +37,7 @@
   :target-path "target/%s/"
   :main ^:skip-aot hipstr.core
 
-  :plugins [] 
+  :plugins []
 
   :profiles
   {:uberjar {:omit-source true
@@ -55,7 +55,8 @@
                                  [ring/ring-devel "1.9.0"]
                                  [ring/ring-mock "0.4.0"]]
                   :plugins      [[com.jakemccrary/lein-test-refresh "0.24.1"]
-                                 [jonase/eastwood "0.3.5"]] 
+                                 [jonase/eastwood "0.3.5"]
+                                 [quickie "0.3.6"]]
                   
                   :source-paths ["env/dev/clj" ]
                   :resource-paths ["env/dev/resources"]
