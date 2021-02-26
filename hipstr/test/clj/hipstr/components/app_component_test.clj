@@ -55,3 +55,7 @@
       (is (string? content))
       (is (str/includes? content ":port"))
       (is (str/includes? content ":server")))))
+
+;; Execute tests with plugin: lein quickie
+;; Execute tests without plugin: lein test
+;; Execute tests for specific namespace: lein test [:only] namespace[/test-name]
