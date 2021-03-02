@@ -1,7 +1,7 @@
 (require '[clojure.string :as str])
 
 (defn read-input
-  "Reads contents file at once and keep each of its lines in a vector.
+  "Reads file content at once and keep each of its lines in a vector.
   Returns the vector"
   []
     (let [file-content (slurp "input.txt")
