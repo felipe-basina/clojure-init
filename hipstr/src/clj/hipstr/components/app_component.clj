@@ -14,7 +14,7 @@
     (reduce merge
             (map create-map
                  (split-by query-params "&")))
-    (catch Exception e {})))
+    (catch Exception _ {})))
 
 (defn render-request-val [request]
   "Simply returns the value of request-key in request-map,
