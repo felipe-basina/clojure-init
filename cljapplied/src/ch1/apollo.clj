@@ -8,7 +8,7 @@
 ;---
 (ns ch1.apollo)
 
-;
+; Destructuring content from map 'opts'
 (defn make-mission
   [name system launched manned? opts]
   (let [{:keys [cm-name ;; command module
@@ -29,6 +29,8 @@
 ;
 (def mission-defaults {:orbits 0, :evas 0})
 
+; 'merge' function merges maps
+; the later overrides previous definitions
 (defn make-mission
   [name system launched manned? opts]
   (let [{:keys [cm-name ;; command module
@@ -39,7 +41,7 @@
 ;
 
 
-;
+; Destructuring using 'varargs'
 (defn make-mission
   [name system launched manned? & opts]
   (let [{:keys [cm-name ;; command module
@@ -63,7 +65,7 @@
                              :evas 1))
 ;
 
-;
+; Using 'or' to provide default values
 (defn make-mission
   [name system launched manned? & opts]
   (let [{:keys [cm-name ;; command module
