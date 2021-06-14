@@ -47,12 +47,12 @@
 (println (durability2 gemstone-db :moissanite))
 
 ;; This way returns the entire map (db content)
-(defn set-new-color [db gem new-color]
+(defn change-color [db gem new-color]
       (assoc-in db [gem :properties :color] new-color))
 
 ;; This way returns only the updated value, not the entire map (db content)
-(defn set-new-color2 [db gem new-color]
+(defn change-color2 [db gem new-color]
       (update (gem db) :properties into {:color new-color}))
 
-(println (set-new-color gemstone-db :ruby "Near colorless through pink through all shades of red to a deep crimson"))
-(println (set-new-color2 gemstone-db :ruby "Near colorless through pink through all shades of red to a deep crimson"))
+(println (change-color gemstone-db :ruby "Near colorless through pink through all shades of red to a deep crimson"))
+(println (change-color2 gemstone-db :ruby "Near colorless through pink through all shades of red to a deep crimson"))
