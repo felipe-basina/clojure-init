@@ -46,6 +46,7 @@
 (println (durability gemstone-db :moissanite))
 (println (durability2 gemstone-db :moissanite))
 
+;; This way returns the entire map (db content)
 (defn set-new-color [db gem new-color]
       (assoc-in db [gem :properties :color] new-color))
 
