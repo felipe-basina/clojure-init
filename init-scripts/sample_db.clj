@@ -56,3 +56,12 @@
 
 (println (change-color gemstone-db :ruby "Near colorless through pink through all shades of red to a deep crimson"))
 (println (change-color2 gemstone-db :ruby "Near colorless through pink through all shades of red to a deep crimson"))
+
+;; Functions like assoc-in and update-in will
+;; change content from a map and return the entire content of it
+(defn sell [db gem client-id]
+      (let [decreased-stock-map (update-in db [gem :stock] dec)
+            updated-sales-map (update-in decreased-stock-map [gem :sales] conj client-id)]
+           updated-sales-map))
+
+(println (sell gemstone-db :diamond 101010))
