@@ -32,3 +32,11 @@
 (insert :fruits {:name "Grapefruit" :stock 12} :name)
 (insert :fruits {:name "Apple" :stock 28} :name)
 (println (read-db))
+
+(defn select-*-where [table-name field field-value]
+      (let [element-index (get-in (read-db) [table-name :indexes :name field-value])]
+           (field (nth (get-in (read-db) [table-name :data]) element-index))))
+
+(println (select-*-where :fruits :name "Lemon"))
+(println (select-*-where :fruits :stock "Lemon"))
+(println (select-*-where :fruits :stock "Apple"))
