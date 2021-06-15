@@ -22,3 +22,13 @@
 
 (drop-table "person")
 (println (read-db))
+
+(defn insert [table record id-key]
+      (let [updated-db (update-in (read-db) [table :data] conj record)
+            total-elements (count (get-in updated-db [table :data]))]
+           (write-db (update-in updated-db [table :indexes id-key] assoc (id-key record) (dec total-elements)))))
+
+(insert :fruits {:name "Lemon" :stock 10} :name)
+(insert :fruits {:name "Grapefruit" :stock 12} :name)
+(insert :fruits {:name "Apple" :stock 28} :name)
+(println (read-db))
