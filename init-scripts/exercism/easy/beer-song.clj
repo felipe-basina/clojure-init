@@ -1,3 +1,8 @@
+;;;
+;;; Recite the lyrics to that beloved classic, that field-trip favorite: 99 Bottles of Beer on the Wall.
+;;; Note that not all verses are identical.
+;;;
+
 (require '[clojure.string :as s])
 
 (def SENTENCE_1 (str ":d bottles of beer on the wall, :d bottles of beer."))
