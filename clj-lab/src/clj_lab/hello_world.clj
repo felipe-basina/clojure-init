@@ -5,5 +5,6 @@
   ([name] (println (str "Hello World " name))))
 
 (comment
-  (hello)
-  (hello "Felipe"))
+  (hello)                                                   ; Hello World from Clojure
+  (hello "Felipe")                                          ; Hello World Felipe
+  )
