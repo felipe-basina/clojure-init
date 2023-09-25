@@ -86,6 +86,15 @@
 (reduce str ["FELIPE" " BATISTA" " SIMÃO"])
 
 
+;;; interação com java
+(let [d (java.util.Date.)
+      sdf (java.text.SimpleDateFormat. "dd-MM-yyyy")]
+  (do
+    (println d)
+    (println (.format sdf d))
+    (.getTime d)))
+
+
 ;;; closure
 (defn incrementa-em-?
   [x]
